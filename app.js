@@ -8,6 +8,7 @@ const bodyParser = require('body-parser')
 const registrationRoute = require('./routes/registration')
 const loginRoute = require('./routes/login')
 const homepageRoute = require('./routes/homepage')
+const deckRoute = require('./routes/decks')
 const User = require('./models/User')
 
 app.engine('mustache', mustache())
@@ -28,9 +29,9 @@ passport.use(new BasicStrategy(
     User.findOne({username: username, password: password})
     .then( function(user){
       if(user){
-        done(null, user)
+        return done(null, user)
       } else {
-        done(null, false)
+        return done(null, false)
       }
     })
   }
@@ -42,3 +43,4 @@ app.use(registrationRoute)
 app.use(loginRoute)
 app.use(passport.authenticate('basic', {session: false}))
 app.use(homepageRoute)
+app.use(deckRoute)

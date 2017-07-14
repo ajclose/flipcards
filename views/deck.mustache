@@ -1,0 +1,15 @@
+<h3>{{deck.topic}}</h3>
+
+<form class="" action="/decks/{{deck._id}}/card" method="post">
+  <label for="question">Question:</label>
+  <input type="text" name="question" value="" placeholder="Enter Question">
+
+  <label for="answer">Answer:</label>
+  <input type="text" name="answer" value="" placeholder="Enter Answer">
+  <input type="submit" name="submit" value="Add Card">
+</form>
+
+{{#deck.cards}}
+<p>{{question}}</p>
+<p>{{answer}}</p>
+{{/deck.cards}}

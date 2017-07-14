@@ -13,11 +13,12 @@ router.post('/login', function(req, res) {
     })
     .then(function(user) {
       if (user) {
-        res.redirect('/')
+        res.redirect('/user')
       } else {
         res.render('login')
       }
     })
 })
+
 
 module.exports = router

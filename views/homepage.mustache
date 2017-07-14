@@ -1,0 +1,12 @@
+<a href="/logout">logout</a>
+
+<form class="" action="/decks" method="post">
+  <label for="Topic">Topic</label>
+  <input type="text" name="topic" value="" placeholder="Enter Topic">
+  <input type="submit" name="submit" value="Add Topic">
+</form>
+
+
+{{#decks}}
+<a href="/decks/{{_id}}">{{topic}}</a>
+{{/decks}}

@@ -1,5 +1,29 @@
 <h1>HI</h1>
 
 <form class="" action="/register" method="post">
+  <fieldset>
+       <legend>Sign up!</legend>
 
+       <div class="signup-input">
+       <label for="email">Email</label>
+       <input type="email" id="email" name="email" value="" placeholder="Enter Email Address">
+       </div>
+
+       <div class="signup-input">
+       <label for="username">Username</label>
+       <input type="text" id="username" name="username" value="" placeholder="Enter Username">
+       </div>
+       {{userError}}
+       <div class="signup-input">
+       <label for="password">Password</label>
+       <input type="password" id="password" name="password" value="" placeholder="Enter Password">
+       </div>
+
+       <div class="signup-input">
+       <label for="confirmPassword">Confirm Password</label>
+       <input type="password" id="confirmPassword" name="confirmPassword" value="" placeholder="Confirm Password">
+       </div>
+
+       <input type="submit" name="signup" value="Sign Up!">
+     </fieldset>
 </form>

@@ -10,12 +10,11 @@ router.get('/decks', function(req, res) {
         decks: decks
       })
   })
-
 })
 
 router.get('/logout', function(req, res) {
-  req.logout()
-  console.log(req.user);
+  req.logOut()
+  console.log("logged out");
   res.redirect('/login',)
 })
 

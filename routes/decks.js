@@ -36,4 +36,27 @@ router.post('/decks/:id/card', function(req, res) {
   })
 })
 
+router.get('/decks/:id/edit', function(req, res) {
+  Deck.findOne({_id: req.params.id})
+  .then(function(deck) {
+    res.render('edit-deck', {
+      deck: deck
+    })
+  })
+})
+
+router.put('/decks/:id', function(req, res) {
+  console.log(req.body.topic);
+  Deck.findOne({_id: req.params.id})
+  .then(function(deck) {
+    deck.topic = req.body.topic
+    deck.save()
+    .then(function(deck) {
+      res.render('deck', {
+        deck: deck
+      })
+    })
+  })
+})
+
 module.exports = router

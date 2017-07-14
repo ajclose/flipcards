@@ -13,7 +13,7 @@ router.post('/login', function(req, res) {
     })
     .then(function(user) {
       if (user) {
-        res.redirect('/user')
+        res.redirect('/decks')
       } else {
         res.render('login')
       }

@@ -9,6 +9,7 @@ const registrationRoute = require('./routes/registration')
 const loginRoute = require('./routes/login')
 const homepageRoute = require('./routes/homepage')
 const deckRoute = require('./routes/decks')
+const apiRoute = require('./routes/api')
 const User = require('./models/User')
 
 app.engine('mustache', mustache())
@@ -18,7 +19,10 @@ app.use(express.static('public'))
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 mongoose.Promise = require('bluebird')
-mongoose.connect('mongodb://localhost:27017/flipcards')
+
+const nodeEnv = process.env.NODE_ENV || "development";
+const config = require("./config")[nodeEnv]
+mongoose.connect(config.mongoUrl)
 
 app.listen(3000, function() {
   console.log("app is live!");
@@ -44,3 +48,6 @@ app.use(loginRoute)
 app.use(passport.authenticate('basic', {session: false}))
 app.use(homepageRoute)
 app.use(deckRoute)
+app.use(apiRoute)
+
+module.exports = app

@@ -22,9 +22,14 @@ router.post('/register', function(req, res) {
       user.password = req.body.password
       user.save()
       .then(function(user) {
-        res.json(user)
+        res.redirect('/login')
       })
     }
+  })
+  .catch(function(error) {
+    res.render('registration', {
+      error: error
+    })
   })
 })
 

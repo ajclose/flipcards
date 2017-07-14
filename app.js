@@ -6,6 +6,9 @@ const passport = require('passport')
 const BasicStrategy = require('passport-http').BasicStrategy
 const bodyParser = require('body-parser')
 const registrationRoute = require('./routes/registration')
+const loginRoute = require('./routes/login')
+const homepageRoute = require('./routes/homepage')
+const User = require('./models/User')
 
 app.engine('mustache', mustache())
 app.set('view engine', 'mustache')
@@ -20,4 +23,22 @@ app.listen(3000, function() {
   console.log("app is live!");
 })
 
+passport.use(new BasicStrategy(
+  function(username, password, done) {
+    User.findOne({username: username, password: password})
+    .then( function(user){
+      if(user){
+        done(null, user)
+      } else {
+        done(null, false)
+      }
+    })
+  }
+));
+
+
+
 app.use(registrationRoute)
+app.use(loginRoute)
+app.use(passport.authenticate('basic', {session: false}))
+app.use(homepageRoute)

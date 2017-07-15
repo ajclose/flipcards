@@ -14,11 +14,11 @@ const apiRoute = require('./routes/api')
 const User = require('./models/User')
 const authenticate = require('./middleware/authenticate')
 
-const sess = {
-  secret: 'ASKDFJAISDFYAKNFQ#$%(@*#@23$)',
-  resave: true,
-  saveUninitialized: true
-}
+// const sess = {
+//   secret: 'ASKDFJAISDFYAKNFQ#$%(@*#@23$)',
+//   resave: true,
+//   saveUninitialized: true
+// }
 
 app.engine('mustache', mustache())
 app.set('view engine', 'mustache')
@@ -48,10 +48,10 @@ passport.use(new BasicStrategy(
     })
   }
 ));
-app.use(session(sess))
+// app.use(session(sess))
 app.use(registrationRoute)
 app.use(loginRoute)
-app.use(authenticate)
+// app.use(authenticate)
 app.use(homepageRoute)
 app.use(deckRoute)
 app.use(passport.authenticate('basic', {session: false}))

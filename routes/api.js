@@ -54,12 +54,15 @@ router.post('/api/decks/:id', function(req, res) {
 })
 
 router.put('/api/decks/:id', function(req, res) {
-  Deck.findOne({_id: req.params.id})
+  Deck.findOne({_id: req.body.deckid})
   .then(function(deck) {
-    deck.cards.push({
-      question: req.body.question,
-      answer: req.body.answer
-    })
+    for (var i = 0; i < deck.cards.length; i++) {
+      const card = deck.cards[i]
+      if (card._id = req.params.id) {
+        card.question = req.body.question,
+        card.answer = req.body.answer
+      }
+    }
     deck.save()
     .then(function(deck) {
       res.json(deck)

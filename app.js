@@ -5,12 +5,20 @@ const mongoose = require('mongoose')
 const passport = require('passport')
 const BasicStrategy = require('passport-http').BasicStrategy
 const bodyParser = require('body-parser')
+const session = require('express-session')
 const registrationRoute = require('./routes/registration')
 const loginRoute = require('./routes/login')
 const homepageRoute = require('./routes/homepage')
 const deckRoute = require('./routes/decks')
 const apiRoute = require('./routes/api')
 const User = require('./models/User')
+const authenticate = require('./middleware/authenticate')
+
+const sess = {
+  secret: 'ASKDFJAISDFYAKNFQ#$%(@*#@23$)',
+  resave: true,
+  saveUninitialized: true
+}
 
 app.engine('mustache', mustache())
 app.set('view engine', 'mustache')
@@ -40,14 +48,13 @@ passport.use(new BasicStrategy(
     })
   }
 ));
-
-
-
+app.use(session(sess))
 app.use(registrationRoute)
 app.use(loginRoute)
-app.use(passport.authenticate('basic', {session: false}))
+app.use(authenticate)
 app.use(homepageRoute)
 app.use(deckRoute)
+app.use(passport.authenticate('basic', {session: false}))
 app.use(apiRoute)
 
 module.exports = app

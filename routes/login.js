@@ -13,7 +13,8 @@ router.post('/login', function(req, res) {
     })
     .then(function(user) {
       if (user) {
-        res.redirect('/decks')
+        req.session.userId = user._id
+        res.redirect('/')
       } else {
         res.render('login')
       }

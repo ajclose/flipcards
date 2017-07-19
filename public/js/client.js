@@ -162,7 +162,9 @@ function fetchDeck(id) {
               fetch(`/api/cards/${cardId}`, {
                   method: "DELETE",
                   credentials: 'include',
-                  body: JSON.stringify({deckId: deckid}),
+                  body: JSON.stringify({
+                    deckId: deckid
+                  }),
                   headers: {
                     "content-type": "application/json"
                   }
@@ -181,30 +183,80 @@ function fetchDeck(id) {
       }
 
       const editCardButtons = document.querySelectorAll("form.editCard")
-     if (editCardButtons) {
-       for (var i = 0; i < editCardButtons.length; i++) {
-         const editCardButton = editCardButtons[i]
+      if (editCardButtons) {
+        for (var i = 0; i < editCardButtons.length; i++) {
+          const editCardButton = editCardButtons[i]
 
-         editCardButton.addEventListener("submit", function(event) {
-           event.preventDefault()
-           console.log(event);
-           const cardId = editCardButton.querySelector("button.editCardButton").id
-           document.querySelector(".decks").textContent = ""
-           const editCard = `
-           <form class="addCard" action="/api/decks/${cardId} method="put">
+          editCardButton.addEventListener("submit", function(event) {
+            event.preventDefault()
+            const cardId = editCardButton.querySelector("button.editCardButton").id
+            document.querySelector(".decks").textContent = ""
+            fetch(`/api/decks/${deckid}`, {
+                credentials: "include"
+              })
+              .then(function(res) {
+                return res.json()
+              })
+              .then(function(json) {
+                const cards = json.cards
+                let question;
+                let answer;
+                for (var i = 0; i < cards.length; i++) {
+                  card = cards[i]
+                  if (card._id === cardId) {
+                    question = card.question
+                    answer = card.answer
+                  }
+                }
+
+            const editCard = `
+           <form class="editCardForm" action="/api/decks/${cardId}" method="put">
            <fieldset>
-           <legend>Add question</legend>
+           <legend>Edit question</legend>
            <label for="question">Question:</label>
-           <input type="text" id="question" name="question" value="" placeholder="Enter Question">
+           <input type="text" id="editQuestion" name="question" value="${question}" placeholder="Enter Question">
            <label for="answer">Answer:</label>
-           <input type="text" id="answer" name="answer" value="" placeholder="Enter Answer">
-           <input type="submit" name="submit" value="Add Card">
+           <input type="text" id="editAnswer" name="answer" value="${answer}" placeholder="Enter Answer">
+           <input type="submit" name="submit" value="Edit Card">
            </fieldset>
            `
-})
-}
-}
-})
+           deckContainer.insertAdjacentHTML("afterbegin", editCard)
+          })
+          .then(function(json) {
+            const editCardForm = document.querySelector("form.editCardForm")
+            if (editCardForm) {
+              editCardForm.addEventListener("submit", function(event) {
+                event.preventDefault()
+                console.log("clicked");
+                formData = {
+                  question: document.querySelector("#editQuestion").value,
+                  answer: document.querySelector("#editAnswer").value,
+                  deckid: deckid
+                }
+                console.log(formData);
+                fetch(`/api/decks/${cardId}`, {
+                    method: "PUT",
+                    credentials: "include",
+                    body: JSON.stringify(formData),
+                    headers: {
+                      "content-type": "application/json"
+                    }
+                  })
+                  .then(function(res) {
+                    return res.json()
+                  })
+                  .then(function(json) {
+                    fetchDeck(deckid)
+                  })
+              })
+            }
+          })
+        })
+      }
+    }
+
+
+  })
 }
 
 const deckContainer = document.querySelector('.decks')

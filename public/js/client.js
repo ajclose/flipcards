@@ -225,6 +225,7 @@ function fetchDeck(id) {
           .then(function(json) {
             const editCardForm = document.querySelector("form.editCardForm")
             if (editCardForm) {
+              console.log(editCardForm);
               editCardForm.addEventListener("submit", function(event) {
                 event.preventDefault()
                 console.log("clicked");
@@ -248,16 +249,26 @@ function fetchDeck(id) {
                   .then(function(json) {
                     fetchDeck(deckid)
                   })
+
+        })
+
+      }
+          })
               })
             }
-          })
-        })
-      }
-    }
+          }
+
+
 
 
   })
-}
+
+
+
+
+
+  }
+
 
 const deckContainer = document.querySelector('.decks')
 if (deckContainer) {
